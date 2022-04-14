@@ -11,14 +11,27 @@ import java.util.Scanner;
 @Service
 public class IOServiceStreams implements IOService {
 
-    private final Scanner input;
+//    private final Scanner input;
+//    private final PrintStream output;
+//
+//    @Autowired
+//    public IOServiceStreams(
+//            @Value("#{ T(java.lang.System).in } ") InputStream inputStream,
+//            @Value("#{ T(java.lang.System).out } ") PrintStream outputStream) {
+//        this.input = new Scanner(inputStream);
+//        this.output = outputStream;
+//    }
+
+    private final InputStream inputStream;
+    private final Scanner scanner;
     private final PrintStream output;
 
-    @Autowired
+//    @Autowired
     public IOServiceStreams(
             @Value("#{ T(java.lang.System).in } ") InputStream inputStream,
             @Value("#{ T(java.lang.System).out } ") PrintStream outputStream) {
-        this.input = new Scanner(inputStream);
+        this.inputStream = inputStream;
+        this.scanner = new Scanner(this.inputStream);
         this.output = outputStream;
     }
 
@@ -35,7 +48,8 @@ public class IOServiceStreams implements IOService {
     }
 
     public Scanner getInput() {
-        return input;
+//        return input;
+        return scanner;
     }
 
     @Override
@@ -45,12 +59,14 @@ public class IOServiceStreams implements IOService {
 
     @Override
     public int readInt() {
-        return Integer.parseInt(this.input.nextLine());
+//        return Integer.parseInt(this.input.nextLine());
+        return Integer.parseInt(this.scanner.nextLine());
     }
 
     @Override
     public String readString() {
-        return this.input.nextLine();
+//        return this.input.nextLine();
+        return this.scanner.nextLine();
     }
 
 }
