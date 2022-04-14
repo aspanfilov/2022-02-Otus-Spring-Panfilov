@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="questionDao" class="ru.otus.spring.dao.QuestionDaoCsv">
+        <constructor-arg name="questionSourceFileName" value="/questions.csv"/>
+    </bean>
+
+    <bean id="testingDataLoader" class="ru.otus.spring.service.TestingDataLoaderImpl">
+        <constructor-arg name="questionDao" ref="questionDao"/>
+    </bean>
+
+    <bean id="questionProvider" class="ru.otus.spring.service.QuestionProviderImpl"/>
+
+    <bean id="testingResultHandler" class="ru.otus.spring.service.TestingResultHandlerImpl"/>
+
+    <bean id="ioService" class="ru.otus.spring.service.IOServiceStreams">
+        <property name="input" value="#{ T(java.lang.System).in }"/>
+        <property name="output" value="#{ T(java.lang.System).out }"/>
+    </bean>
+
+    <bean id="testProcessor" class="ru.otus.spring.service.TestingProcessorImpl">
+        <constructor-arg name="testingDataLoader" ref="testingDataLoader"/>
+        <constructor-arg name="questionProvider" ref="questionProvider"/>
+        <constructor-arg name="testingResultHandler" ref="testingResultHandler"/>
+        <constructor-arg name="ioService" ref="ioService"/>
+    </bean>
+
+    <bean id="applicationRunner" class="ru.otus.spring.service.ApplicationRunner">
+        <constructor-arg name="testProcessor" ref="testProcessor"/>
+    </bean>
+
+</beans>
