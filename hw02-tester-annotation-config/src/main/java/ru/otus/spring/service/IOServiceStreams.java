@@ -28,8 +28,8 @@ public class IOServiceStreams implements IOService {
 
 //    @Autowired
     public IOServiceStreams(
-            @Value("#{ T(java.lang.System).in } ") InputStream inputStream,
-            @Value("#{ T(java.lang.System).out } ") PrintStream outputStream) {
+            @Value("#{ T(java.lang.System).in }") InputStream inputStream,
+            @Value("#{ T(java.lang.System).out }") PrintStream outputStream) {
         this.inputStream = inputStream;
         this.scanner = new Scanner(this.inputStream);
         this.output = outputStream;
