@@ -24,15 +24,11 @@ public class Main {
 //
 //        var applicationRunner = new ApplicationRunner(testProcessor);
 
-//        ClassPathXmlApplicationContext context =
-//                new ClassPathXmlApplicationContext("/spring-context.xml");
-
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(Main.class);
 
-//        ApplicationRunner application = context.getBean(ApplicationRunner.class);
-//        application.run();
-
+        ApplicationRunner application = context.getBean(ApplicationRunner.class);
+        application.run();
 
     }
 

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//@Service
+@Service
 public class TestingProcessorImpl implements TestingProcessor {
 
     private final TestingDataLoader testingDataLoader;
@@ -23,7 +23,7 @@ public class TestingProcessorImpl implements TestingProcessor {
     private static final String EXIT_COMMAND = "q";
     private static final String HELP_COMMAND = "h";
 
-//    @Autowired
+    @Autowired
     public TestingProcessorImpl(TestingDataLoader testingDataLoader,
                                 QuestionProvider questionProvider,
                                 TestingResultHandler testingResultHandler,

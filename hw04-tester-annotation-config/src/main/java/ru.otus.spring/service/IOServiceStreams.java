@@ -8,16 +8,14 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-@Service
 public class IOServiceStreams implements IOService {
 
     private final Scanner input;
     private final PrintStream output;
 
-    @Autowired
     public IOServiceStreams(
-            @Value("#{ T(java.lang.System).in }") InputStream inputStream,
-            @Value("#{ T(java.lang.System).out }") PrintStream outputStream) {
+            InputStream inputStream,
+            PrintStream outputStream) {
         this.input = new Scanner(inputStream);
         this.output = outputStream;
     }
