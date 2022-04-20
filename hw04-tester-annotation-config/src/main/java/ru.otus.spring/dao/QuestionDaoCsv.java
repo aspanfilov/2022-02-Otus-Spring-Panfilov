@@ -4,8 +4,8 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.exception.QuestionSourceException;
 
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class QuestionDaoCsv implements QuestionDao {
@@ -26,7 +27,7 @@ public class QuestionDaoCsv implements QuestionDao {
     }
 
     @Override
-    public List<Question> getAll(){
+    public List<Question> getAll() {
 
         List<Question> questions = new ArrayList<>();
 
@@ -45,7 +46,7 @@ public class QuestionDaoCsv implements QuestionDao {
             }
 
         } catch (CsvValidationException | IOException e) {
-            throw new QuestionSourceException(e.getMessage());
+            throw new QuestionSourceException(e);
         }
 
         return questions;
@@ -53,12 +54,12 @@ public class QuestionDaoCsv implements QuestionDao {
 
     private Question createQuestion(String[] params) {
 
-        List<String> answers = Arrays.stream(params, 1, params.length - 1)
-                .collect(Collectors.toList());
+        List<Answer> answers = new ArrayList<>();
 
-        return new Question(
-                params[0],
-                answers,
-                Integer.parseInt(params[params.length - 1]));
+        IntStream.range(1, params.length - 1).forEach(i ->
+                answers.add(new Answer(params[i], i == Integer.parseInt(params[params.length - 1]))));
+
+        return new Question(params[0], answers);
+
     }
 }

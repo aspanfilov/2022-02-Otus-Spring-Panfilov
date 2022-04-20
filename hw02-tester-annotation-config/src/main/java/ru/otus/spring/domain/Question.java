@@ -24,4 +24,8 @@ public class Question {
     public int getCorrectIndex() {
         return correctIndex;
     }
+
+    public Answer getAnswer(int index) {
+
+    }
 }

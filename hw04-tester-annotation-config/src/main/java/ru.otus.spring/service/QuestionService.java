@@ -1,10 +1,10 @@
-package ru.otus.spring.dao;
+package ru.otus.spring.service;
 
 import ru.otus.spring.domain.Question;
 
 import java.util.List;
 
-public interface QuestionDao {
+public interface QuestionService {
 
     List<Question> getAll();
 
