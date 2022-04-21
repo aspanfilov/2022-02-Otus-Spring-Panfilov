@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.mock;
 
 @DisplayName("Класс Question")
 class QuestionTest {
@@ -25,7 +26,14 @@ class QuestionTest {
     @Test
     @DisplayName("метод getAnswer возвращает запрашиваемый ответ")
     void methodGetAnswer_shouldReturnRequestedAnswer() {
-        //todo сделать тест с двумя моками ответов
+        Answer answerMock1 = mock(Answer.class);
+        Answer answerMock2 = mock(Answer.class);
+        List<Answer> answers = List.of(answerMock1, answerMock2);
+
+        Question question = new Question("question?", answers);
+
+        assertThat(question.getAnswer(0)).isEqualTo(answerMock1);
+        assertThat(question.getAnswer(1)).isEqualTo(answerMock2);
     }
 
 }

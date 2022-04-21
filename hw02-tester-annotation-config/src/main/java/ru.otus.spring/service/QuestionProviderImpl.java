@@ -1,6 +1,7 @@
 package ru.otus.spring.service;
 
 import org.springframework.stereotype.Service;
+import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @Service
-public class QuestionProviderImpl implements QuestionProvider {
+public class QuestionProviderImpl implements QuestionProvider{
 
     private final List<String> availableInputAnswers = new ArrayList<>();
 
@@ -20,10 +21,10 @@ public class QuestionProviderImpl implements QuestionProvider {
     @Override
     public String getAnswerVariants(Question question) {
         StringBuilder sb = new StringBuilder();
-        List<String> answers = question.getAnswers();
+        List<Answer> answers = question.getAnswers();
 
         for (int index = 0; index < answers.size(); index++) {
-            sb.append(String.format("%s.%s ", index + 1, answers.get(index)));
+            sb.append(String.format("%s.%s ", index + 1, answers.get(index).getAnswerPhrase()));
         }
         return sb.toString();
     }
@@ -42,4 +43,5 @@ public class QuestionProviderImpl implements QuestionProvider {
                 .mapToObj(Integer::toString)
                 .forEach(this.availableInputAnswers::add);
     }
+
 }

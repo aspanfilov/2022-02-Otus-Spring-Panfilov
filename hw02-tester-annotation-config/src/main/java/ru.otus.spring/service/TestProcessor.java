@@ -1,5 +1,6 @@
 package ru.otus.spring.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResult;
@@ -13,6 +14,7 @@ public class TestProcessor {
     private final QuestionProvider questionProvider;
     private final UserService userService;
     private final IOService ioService;
+    private final int passingPercentage;
 
     private static final String EXIT_COMMAND = "q";
     private static final String HELP_COMMAND = "h";
@@ -20,11 +22,13 @@ public class TestProcessor {
     public TestProcessor(QuestionService questionService,
                          QuestionProvider questionProvider,
                          UserService userService,
-                         IOService ioService) {
+                         IOService ioService,
+                         @Value("${passingPercentage}") int passingPercentage) {
         this.questionService = questionService;
         this.questionProvider = questionProvider;
         this.userService = userService;
         this.ioService = ioService;
+        this.passingPercentage = passingPercentage;
     }
 
     public void start() {
@@ -96,8 +100,18 @@ public class TestProcessor {
                 user.getName()
                 + ", you have answered " + testResult.getNumberOfCorrectAnswers()
                 + " out of " + testResult.getNumberOfQuestions()
-                + " questions";
+                + " questions \n"
+                + getPassingMessage(testResult);
+
         this.ioService.outputString(msg);
     }
 
+    private String getPassingMessage(TestResult testResult) {
+        int percent = testResult.getNumberOfCorrectAnswers() * 100 / testResult.getNumberOfQuestions();
+        if (percent >= this.passingPercentage) {
+            return "PASSED";
+        } else {
+            return "MISSED";
+        }
+    }
 }
