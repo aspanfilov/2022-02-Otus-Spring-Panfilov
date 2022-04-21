@@ -7,11 +7,9 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TestResult {
-    private final User user;
     private final Map<Question, Optional<Answer>> data = new HashMap<>();
 
-    public TestResult(User user, List<Question> questions) {
-        this.user = user;
+    public TestResult(List<Question> questions) {
         questions.forEach(question -> this.data.put(question, Optional.empty()));
     }
 
@@ -29,5 +27,9 @@ public class TestResult {
             });
         }
         return numberOfCorrectAnswers.get();
+    }
+
+    public int getNumberOfQuestions() {
+        return data.size();
     }
 }
