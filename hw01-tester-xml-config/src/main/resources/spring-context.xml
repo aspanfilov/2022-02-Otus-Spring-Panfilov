@@ -5,7 +5,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="questionDao" class="ru.otus.spring.dao.QuestionDaoCsv">
-        <constructor-arg name="questionSourceFileName" value="/questions.csv"/>
+        <constructor-arg name="questionSourceFileName" value="/questionOlds.csv"/>
     </bean>
 
     <bean id="testingDataLoader" class="ru.otus.spring.service.TestingDataLoaderImpl">
