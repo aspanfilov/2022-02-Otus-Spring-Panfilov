@@ -56,20 +56,20 @@ public class QuestionDaoCsv implements QuestionDao {
     private Question createQuestion(String[] params) {
 
         if (params.length < 3) {
-            throw new QuestionCreationException("");
+            throw new QuestionCreationException("There are too few question elements in the line");
         }
 
-        //todo проверить что правильный ответ от 1 до количества вариантов ответа
-        if (params[params.length - 1]) {
-            throw new QuestionCreationException("");
+        int rightAnswerIndex = Integer.parseInt(params[params.length - 1]);
+        int totalAnswerNumber = params.length - 1;
+
+        if (rightAnswerIndex < 1 || rightAnswerIndex > totalAnswerNumber) {
+            throw new QuestionCreationException("Incorrect number of the right answer");
         }
 
         List<Answer> answers = new ArrayList<>();
 
-
-
-        IntStream.range(1, params.length - 1).forEach(i ->
-                answers.add(new Answer(params[i], i == Integer.parseInt(params[params.length - 1]))));
+        IntStream.range(1, totalAnswerNumber).forEach(i ->
+                answers.add(new Answer(params[i], i == rightAnswerIndex)));
 
         return new Question(params[0], answers);
 

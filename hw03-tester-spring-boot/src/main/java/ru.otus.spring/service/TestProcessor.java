@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResult;
 import ru.otus.spring.domain.User;
+import ru.otus.spring.exception.QuestionCreationException;
 import ru.otus.spring.exception.QuestionSourceException;
 
 import java.io.IOException;
@@ -36,23 +37,18 @@ public class TestProcessor {
     }
 
     public void start() {
-        var questions = getQuestions();
-        var user = userService.getUser();
-        var testResult = askQuestions(questions);
-        printResult(user, testResult);
-    }
-
-    private List<Question> getQuestions() {
-
-        List<Question> questions = new ArrayList<>();
         try {
-            questions = this.questionService.getAll();
+
+            var questions = this.questionService.getAll();
+            var user = userService.getUser();
+            var testResult = askQuestions(questions);
+            printResult(user, testResult);
+
         } catch (QuestionSourceException  e) {
             ioService.outputString("Ошибка чтения файла");
-        } catch (NumberFormatException e) {
-            ioService.outputString("Ошибка чтения вопроса из файла");
+        } catch (NumberFormatException | QuestionCreationException e) {
+            ioService.outputString("Ошибка считывания очередного вопроса из файла");
         }
-        return questions;
     }
 
     private TestResult askQuestions(List<Question> questions) {
