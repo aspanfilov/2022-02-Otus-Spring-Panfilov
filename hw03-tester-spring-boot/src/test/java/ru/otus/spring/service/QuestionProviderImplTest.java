@@ -16,10 +16,10 @@ import static org.mockito.Mockito.when;
 @DisplayName("Класс QuestionProviderImpl")
 class QuestionProviderImplTest {
 
-    Answer answerMock1;
-    Answer answerMock2;
-    Question questionMock;
-    QuestionProvider questionProvider;
+    private Answer answerMock1;
+    private Answer answerMock2;
+    private Question questionMock;
+    private QuestionProvider questionProvider;
 
 
     @BeforeEach

@@ -1,11 +1,15 @@
 package ru.otus.spring.service;
 
+import com.opencsv.exceptions.CsvValidationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResult;
 import ru.otus.spring.domain.User;
+import ru.otus.spring.exception.QuestionSourceException;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,10 +36,23 @@ public class TestProcessor {
     }
 
     public void start() {
-        var questions = this.questionService.getAll();
+        var questions = getQuestions();
         var user = userService.getUser();
         var testResult = askQuestions(questions);
         printResult(user, testResult);
+    }
+
+    private List<Question> getQuestions() {
+
+        List<Question> questions = new ArrayList<>();
+        try {
+            questions = this.questionService.getAll();
+        } catch (QuestionSourceException  e) {
+            ioService.outputString("Ошибка чтения файла");
+        } catch (NumberFormatException e) {
+            ioService.outputString("Ошибка чтения вопроса из файла");
+        }
+        return questions;
     }
 
     private TestResult askQuestions(List<Question> questions) {

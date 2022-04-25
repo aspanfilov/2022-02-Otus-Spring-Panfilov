@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
+import ru.otus.spring.exception.QuestionCreationException;
 import ru.otus.spring.exception.QuestionSourceException;
 
 import java.io.*;
@@ -54,7 +55,18 @@ public class QuestionDaoCsv implements QuestionDao {
 
     private Question createQuestion(String[] params) {
 
+        if (params.length < 3) {
+            throw new QuestionCreationException("");
+        }
+
+        //todo проверить что правильный ответ от 1 до количества вариантов ответа
+        if (params[params.length - 1]) {
+            throw new QuestionCreationException("");
+        }
+
         List<Answer> answers = new ArrayList<>();
+
+
 
         IntStream.range(1, params.length - 1).forEach(i ->
                 answers.add(new Answer(params[i], i == Integer.parseInt(params[params.length - 1]))));

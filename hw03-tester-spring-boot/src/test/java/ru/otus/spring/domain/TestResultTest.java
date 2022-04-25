@@ -13,12 +13,12 @@ import static org.mockito.Mockito.when;
 
 @DisplayName("Класс TestResult")
 class TestResultTest {
-    Question questionMock1;
-    Question questionMock2;
-    Question questionMock3;
-    List<Question> questions;
+    private Question questionMock1;
+    private Question questionMock2;
+    private Question questionMock3;
+    private List<Question> questions;
 
-    TestResult testResult;
+    private TestResult testResult;
 
     @BeforeEach
     void setUp() {
