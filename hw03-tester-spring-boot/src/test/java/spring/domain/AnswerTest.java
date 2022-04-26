@@ -1,7 +1,8 @@
-package ru.otus.spring.domain;
+package spring.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.otus.spring.domain.Answer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

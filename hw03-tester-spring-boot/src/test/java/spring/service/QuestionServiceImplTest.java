@@ -1,9 +1,11 @@
-package ru.otus.spring.service;
+package spring.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.domain.Question;
+import ru.otus.spring.service.QuestionService;
+import ru.otus.spring.service.QuestionServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;

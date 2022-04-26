@@ -1,7 +1,5 @@
 package ru.otus.spring.domain;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

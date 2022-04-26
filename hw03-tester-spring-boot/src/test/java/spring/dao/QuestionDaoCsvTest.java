@@ -1,14 +1,16 @@
-package ru.otus.spring.dao;
+package spring.dao;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.otus.spring.dao.QuestionDaoCsv;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.exception.QuestionSourceException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DisplayName("Класс QuestionDaoCsv")
 class QuestionDaoCsvTest {
@@ -17,7 +19,7 @@ class QuestionDaoCsvTest {
     @Test
     void methodGetAll_shouldReturnListOfQuestions() {
 
-        QuestionDaoCsv questionDaoCsv = new QuestionDaoCsv("/questions.csv");
+        QuestionDaoCsv questionDaoCsv = new QuestionDaoCsv("/testQuestions.csv");
         List<Question> questions = questionDaoCsv.getAll();
         assertThat(questions)
                 .isInstanceOf(ArrayList.class)

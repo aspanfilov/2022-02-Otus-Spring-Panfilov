@@ -1,7 +1,9 @@
-package ru.otus.spring.domain;
+package spring.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.otus.spring.domain.Answer;
+import ru.otus.spring.domain.Question;
 
 import java.util.ArrayList;
 import java.util.List;

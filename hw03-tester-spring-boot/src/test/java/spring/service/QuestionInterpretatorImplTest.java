@@ -1,10 +1,12 @@
-package ru.otus.spring.service;
+package spring.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
+import ru.otus.spring.service.QuestionInterpretator;
+import ru.otus.spring.service.QuestionProviderImpl;
 
 import java.util.List;
 

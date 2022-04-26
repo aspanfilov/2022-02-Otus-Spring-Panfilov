@@ -1,12 +1,13 @@
 package ru.otus.spring.service;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResult;
 import ru.otus.spring.domain.User;
 
-@Service
+@ConfigurationProperties(prefix = "test-result")
+@ConstructorBinding
 public class TestResultServiceImpl implements TestResultService{
 
     private final int passingPercentage;
@@ -14,8 +15,7 @@ public class TestResultServiceImpl implements TestResultService{
     private static final String PASSED = "PASSED";
     private static final String MISSED = "MISSED";
 
-    public TestResultServiceImpl(
-            @Value("${passingPercentage}") int passingPercentage) {
+    public TestResultServiceImpl(int passingPercentage) {
         this.passingPercentage = passingPercentage;
     }
 

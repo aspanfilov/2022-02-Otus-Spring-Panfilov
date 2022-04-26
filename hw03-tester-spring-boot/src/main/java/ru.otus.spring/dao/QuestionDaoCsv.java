@@ -2,29 +2,28 @@ package ru.otus.spring.dao;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.exception.QuestionCreationException;
 import ru.otus.spring.exception.QuestionSourceException;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@Service
+@ConfigurationProperties(prefix = "question-source")
+@ConstructorBinding
 public class QuestionDaoCsv implements QuestionDao {
 
-    private final String questionSourceFileName;
+    private final String fileName;
 
-    @Autowired
-    public QuestionDaoCsv(@Value("${question.source}") String questionSourceFileName) {
-        this.questionSourceFileName = questionSourceFileName;
+    public QuestionDaoCsv(String fileName) {
+        this.fileName = fileName;
     }
 
     @Override
@@ -32,10 +31,10 @@ public class QuestionDaoCsv implements QuestionDao {
 
         List<Question> questions = new ArrayList<>();
 
-        try (InputStream inputStream = getClass().getResourceAsStream(this.questionSourceFileName)) {
+        try (InputStream inputStream = getClass().getResourceAsStream(this.fileName)) {
 
             if (inputStream == null) {
-                throw new QuestionSourceException("File not found: " + this.questionSourceFileName);
+                throw new QuestionSourceException("File not found: " + this.fileName);
             }
 
             try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream))) {

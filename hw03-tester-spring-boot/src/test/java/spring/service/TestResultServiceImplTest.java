@@ -1,4 +1,4 @@
-package ru.otus.spring.service;
+package spring.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,9 +9,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResult;
+import ru.otus.spring.service.TestResultServiceImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

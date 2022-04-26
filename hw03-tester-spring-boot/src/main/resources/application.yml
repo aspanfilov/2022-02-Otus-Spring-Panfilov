@@ -1,0 +1,5 @@
+question-source:
+  file-name: /questions.csv
+
+test-result:
+  passing-percentage: 70
