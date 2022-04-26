@@ -1,7 +1,5 @@
 package ru.otus.spring.service;
 
-import com.opencsv.exceptions.CsvValidationException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResult;
@@ -9,31 +7,29 @@ import ru.otus.spring.domain.User;
 import ru.otus.spring.exception.QuestionCreationException;
 import ru.otus.spring.exception.QuestionSourceException;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TestProcessor {
     private final QuestionService questionService;
-    private final QuestionProvider questionProvider;
+    private final QuestionInterpretator questionInterpretator;
     private final UserService userService;
+    private final TestResultService testResultService;
     private final IOService ioService;
-    private final int passingPercentage;
 
     private static final String EXIT_COMMAND = "q";
     private static final String HELP_COMMAND = "h";
 
     public TestProcessor(QuestionService questionService,
-                         QuestionProvider questionProvider,
+                         QuestionInterpretator questionInterpretator,
                          UserService userService,
-                         IOService ioService,
-                         @Value("${passingPercentage}") int passingPercentage) {
+                         TestResultService testResultService,
+                         IOService ioService) {
         this.questionService = questionService;
-        this.questionProvider = questionProvider;
+        this.questionInterpretator = questionInterpretator;
         this.userService = userService;
+        this.testResultService = testResultService;
         this.ioService = ioService;
-        this.passingPercentage = passingPercentage;
     }
 
     public void start() {
@@ -42,19 +38,21 @@ public class TestProcessor {
             var questions = this.questionService.getAll();
             var user = userService.getUser();
             var testResult = askQuestions(questions);
-            printResult(user, testResult);
+            printResult(testResult, user);
 
         } catch (QuestionSourceException  e) {
             ioService.outputString("Ошибка чтения файла");
         } catch (NumberFormatException | QuestionCreationException e) {
             ioService.outputString("Ошибка считывания очередного вопроса из файла");
+        } catch (ArithmeticException e) {
+            ioService.outputString("Ошибка расчета результата тестирования");
         }
     }
 
     private TestResult askQuestions(List<Question> questions) {
         TestResult testResult = new TestResult(questions);
 
-        this.ioService.outputString(getHelp());
+        this.ioService.outputString(HelpProvider.getInstruction());
         this.ioService.outputString("The test has started...");
 
         for (Question question : questions) {
@@ -64,26 +62,20 @@ public class TestProcessor {
                 return testResult;
             }
 
-            saveUserAnswer(testResult, question, Integer.parseInt(userAnswer) - 1);
+            this.testResultService.saveAnswer(testResult, question, userAnswer);
         }
         return testResult;
     }
 
-    private void saveUserAnswer(TestResult testResult, Question question, int userAnswerId) {
-        testResult.putAnswer(
-                question,
-                question.getAnswer(userAnswerId));
-    }
-
     private String askQuestionAndReturnAnswer(Question question) {
 
-        List<String> availableInputAnswers = this.questionProvider.getAvailableInputAnswers(question);
+        List<String> availableInputAnswers = this.questionInterpretator.getAvailableInputAnswers(question);
         String inputAnswer = "";
 
         boolean isAnswerAdopted = false;
         while (!isAnswerAdopted) {
-            ioService.outputString(questionProvider.getQuestionPhrase(question));
-            ioService.outputString(questionProvider.getAnswerVariants(question));
+            ioService.outputString(questionInterpretator.getQuestionPhrase(question));
+            ioService.outputString(questionInterpretator.getAnswerVariants(question));
 
             inputAnswer = ioService.readString();
 
@@ -92,7 +84,7 @@ public class TestProcessor {
             } else if (inputAnswer.equalsIgnoreCase(EXIT_COMMAND)) {
                 isAnswerAdopted = true;
             } else if (inputAnswer.equalsIgnoreCase(HELP_COMMAND)) {
-                ioService.outputString(getHelp());
+                ioService.outputString(HelpProvider.getInstruction());
             } else {
                 ioService.outputString("An unreadable answer has been entered. Try again. ");
             }
@@ -101,30 +93,9 @@ public class TestProcessor {
         return inputAnswer;
     }
 
-    private String getHelp() {
-        return "Instructions: \n"
-                + "     To complete the test early, enter 'q'\n"
-                + "     To call the instructions, enter 'h'\n"
-                + "     To answer the question, enter the number of answer";
+    private void printResult(TestResult testResult, User user) {
+        this.ioService.outputString(
+                this.testResultService.getResultMessage(testResult, user));
     }
 
-    private void printResult(User user, TestResult testResult) {
-        String msg =
-                user.getName()
-                + ", you have answered " + testResult.getNumberOfCorrectAnswers()
-                + " out of " + testResult.getNumberOfQuestions()
-                + " questions \n"
-                + getPassingMessage(testResult);
-
-        this.ioService.outputString(msg);
-    }
-
-    private String getPassingMessage(TestResult testResult) {
-        int percent = testResult.getNumberOfCorrectAnswers() * 100 / testResult.getNumberOfQuestions();
-        if (percent >= this.passingPercentage) {
-            return "PASSED";
-        } else {
-            return "MISSED";
-        }
-    }
 }

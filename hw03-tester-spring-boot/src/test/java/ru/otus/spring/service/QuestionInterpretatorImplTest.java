@@ -9,17 +9,16 @@ import ru.otus.spring.domain.Question;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @DisplayName("Класс QuestionProviderImpl")
-class QuestionProviderImplTest {
+class QuestionInterpretatorImplTest {
 
     private Answer answerMock1;
     private Answer answerMock2;
     private Question questionMock;
-    private QuestionProvider questionProvider;
+    private QuestionInterpretator questionProvider;
 
 
     @BeforeEach

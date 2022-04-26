@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @Service
-public class QuestionProviderImpl implements QuestionProvider{
+public class QuestionProviderImpl implements QuestionInterpretator {
 
     private final List<String> availableInputAnswers = new ArrayList<>();
 
