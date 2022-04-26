@@ -41,11 +41,11 @@ public class TestProcessor {
             printResult(testResult, user);
 
         } catch (QuestionSourceException  e) {
-            ioService.outputString("Ошибка чтения файла");
+            ioService.outputString("File reading error");
         } catch (NumberFormatException | QuestionCreationException e) {
-            ioService.outputString("Ошибка считывания очередного вопроса из файла");
+            ioService.outputString("Error reading the question from the file");
         } catch (ArithmeticException e) {
-            ioService.outputString("Ошибка расчета результата тестирования");
+            ioService.outputString("Error in calculating the test result");
         }
     }
 
