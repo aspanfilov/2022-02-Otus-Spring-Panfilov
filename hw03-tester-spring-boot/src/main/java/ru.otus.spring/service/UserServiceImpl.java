@@ -15,6 +15,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getUser() {
 
+//        this.ioService.outputString("Enter name: ");
         this.ioService.outputString("Enter name: ");
 
         User user = new User(this.ioService.readString());
