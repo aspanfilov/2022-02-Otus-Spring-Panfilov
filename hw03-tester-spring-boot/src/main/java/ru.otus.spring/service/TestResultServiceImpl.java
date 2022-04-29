@@ -2,9 +2,11 @@ package ru.otus.spring.service;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResult;
 import ru.otus.spring.domain.User;
+
 
 @ConfigurationProperties(prefix = "test-result")
 @ConstructorBinding

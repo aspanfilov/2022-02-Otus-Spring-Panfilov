@@ -5,5 +5,8 @@ spring:
 question-source:
   file-name: /questions.csv
 
+localization:
+  LanguageTag: Ru-ru
+
 test-result:
   passing-percentage: 70
