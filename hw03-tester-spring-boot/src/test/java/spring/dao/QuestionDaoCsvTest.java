@@ -19,7 +19,7 @@ class QuestionDaoCsvTest {
     @Test
     void methodGetAll_shouldReturnListOfQuestions() {
 
-        QuestionDaoCsv questionDaoCsv = new QuestionDaoCsv("/testQuestions.csv");
+        QuestionDaoCsv questionDaoCsv = new QuestionDaoCsv("/testQuestions.csv", "en");
         List<Question> questions = questionDaoCsv.getAll();
         assertThat(questions)
                 .isInstanceOf(ArrayList.class)
@@ -29,7 +29,7 @@ class QuestionDaoCsvTest {
     @DisplayName("метод getAll возвращает корректно сформированный вопрос")
     @Test
     void methodGetAll_shouldReturnCorrectCreatedQuestions() {
-        QuestionDaoCsv questionDaoCsv = new QuestionDaoCsv("/questions.csv");
+        QuestionDaoCsv questionDaoCsv = new QuestionDaoCsv("/questions.csv", "en");
         List<Question> questions = questionDaoCsv.getAll();
 
         assertThat(questions.get(0).getQuestionPhrase())
@@ -65,7 +65,7 @@ class QuestionDaoCsvTest {
     @DisplayName("метод getAll кинет ожидаемое исключение, если объект создан по неверному ресурсу")
     @Test
     void methodGetAll_shouldThrowExpectedExceptionWhenConstructorWithWrongResource() {
-        QuestionDaoCsv questionDaoCsv = new QuestionDaoCsv("/wrong_name.csv");
+        QuestionDaoCsv questionDaoCsv = new QuestionDaoCsv("/wrong_name.csv", "en");
         assertThatExceptionOfType(QuestionSourceException.class)
                 .isThrownBy(questionDaoCsv::getAll);
     }

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.service.QuestionInterpretator;
-import ru.otus.spring.service.QuestionProviderImpl;
+import ru.otus.spring.service.QuestionInterpretatorImpl;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ class QuestionInterpretatorImplTest {
         this.questionMock = mock(Question.class);
         when(questionMock.getAnswers()).thenReturn(answers);
 
-        this.questionProvider = new QuestionProviderImpl();
+        this.questionProvider = new QuestionInterpretatorImpl();
     }
 
     @DisplayName("Метод getQuestionPhrase возвращает вопрос")

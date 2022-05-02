@@ -15,6 +15,7 @@ public class TestProcessor {
     private final QuestionInterpretator questionInterpretator;
     private final UserService userService;
     private final TestResultService testResultService;
+    private final HelpProvider helpProvider;
     private final IOService ioService;
 
     private static final String EXIT_COMMAND = "q";
@@ -24,13 +25,16 @@ public class TestProcessor {
                          QuestionInterpretator questionInterpretator,
                          UserService userService,
                          TestResultService testResultService,
+                         HelpProvider helpProvider,
                          IOService ioService) {
         this.questionService = questionService;
         this.questionInterpretator = questionInterpretator;
         this.userService = userService;
         this.testResultService = testResultService;
+        this.helpProvider = helpProvider;
         this.ioService = ioService;
     }
+
 
     public void start() {
         try {
@@ -41,19 +45,19 @@ public class TestProcessor {
             printResult(testResult, user);
 
         } catch (QuestionSourceException  e) {
-            ioService.outputString("File reading error");
+            this.ioService.outputLocaledString("errors.fileReadingError");
         } catch (NumberFormatException | QuestionCreationException e) {
-            ioService.outputString("Error reading the question from the file");
+            this.ioService.outputLocaledString("errors.questionReadingError");
         } catch (ArithmeticException e) {
-            ioService.outputString("Error in calculating the test result");
+            this.ioService.outputLocaledString("errors.testResultCalculatingError");
         }
     }
 
     private TestResult askQuestions(List<Question> questions) {
         TestResult testResult = new TestResult(questions);
 
-        this.ioService.outputString(HelpProvider.getInstruction());
-        this.ioService.outputString("The test has started...");
+        this.ioService.outputString(helpProvider.getInstruction());
+        this.ioService.outputLocaledString("test.start");
 
         for (Question question : questions) {
             String userAnswer = askQuestionAndReturnAnswer(question);
@@ -74,19 +78,19 @@ public class TestProcessor {
 
         boolean isAnswerAdopted = false;
         while (!isAnswerAdopted) {
-            ioService.outputString(questionInterpretator.getQuestionPhrase(question));
-            ioService.outputString(questionInterpretator.getAnswerVariants(question));
+            this.ioService.outputString(questionInterpretator.getQuestionPhrase(question));
+            this.ioService.outputString(questionInterpretator.getAnswerVariants(question));
 
-            inputAnswer = ioService.readString();
+            inputAnswer = this.ioService.readString();
 
             if (availableInputAnswers.contains(inputAnswer)) {
                 isAnswerAdopted = true;
             } else if (inputAnswer.equalsIgnoreCase(EXIT_COMMAND)) {
                 isAnswerAdopted = true;
             } else if (inputAnswer.equalsIgnoreCase(HELP_COMMAND)) {
-                ioService.outputString(HelpProvider.getInstruction());
+                this.ioService.outputString(helpProvider.getInstruction());
             } else {
-                ioService.outputString("An unreadable answer has been entered. Try again. ");
+                this.ioService.outputLocaledString("errors.unreadableAnswer");
             }
         }
 

@@ -1,5 +1,6 @@
 package ru.otus.spring.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 
 import java.io.InputStream;
@@ -10,12 +11,14 @@ public class IOServiceStreams implements IOService {
 
     private final Scanner input;
     private final PrintStream output;
+    @Autowired
     private final MessageSourceService messageSourceService;
 
     public IOServiceStreams(
             InputStream inputStream,
             PrintStream outputStream,
-            MessageSourceService messageSourceService) {
+            MessageSourceService messageSourceService
+    ) {
         this.input = new Scanner(inputStream);
         this.output = outputStream;
         this.messageSourceService = messageSourceService;
@@ -39,7 +42,13 @@ public class IOServiceStreams implements IOService {
     }
 
     @Override
-    public void outputStringLocaled(String s, @Nullable Object[] args) {
+    public void outputLocaledString(String s) {
+        String localedMessage = this.messageSourceService.getMessage(s, null);
+        outputString(localedMessage);
+    }
+
+    @Override
+    public void outputLocaledStringWithArgs(String s, Object[] args) {
         String localedMessage = this.messageSourceService.getMessage(s, args);
         outputString(localedMessage);
     }

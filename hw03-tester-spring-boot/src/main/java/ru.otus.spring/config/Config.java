@@ -1,8 +1,10 @@
 package ru.otus.spring.config;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.MessageSourceResourceBundle;
 import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.dao.QuestionDaoCsv;
 import ru.otus.spring.service.*;
@@ -19,21 +21,10 @@ public class Config {
     private TestResultService testResultService;
 
     private MessageSourceService messageSourceService;
-//    private MessageSource messageSource;
 
-//    @Bean
-//    MessageSource messageSource() {
-//        return new ResourceBundleMessageSource();
-//    }
-
-//    @Bean
-//    LocaledMessageSource localedMessageSource() {
-//        return new LocaledMessageSource(messageSource, Locale.forLanguageTag("ru-RU"));
-//    }
-
-//    @Bean
-//    IOService ioService() {
-//        return new IOServiceStreams(System.in, System.out, messageSourceService);
-//    }
+    @Bean
+    IOService ioService() {
+        return new IOServiceStreams(System.in, System.out, messageSourceService);
+    }
 
 }

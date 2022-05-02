@@ -4,7 +4,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.exception.QuestionCreationException;
@@ -22,9 +21,25 @@ import java.util.stream.IntStream;
 public class QuestionDaoCsv implements QuestionDao {
 
     private final String fileName;
+    private final String LanguageTag;
+    private String localedFileName;
 
-    public QuestionDaoCsv(String fileName) {
+    public QuestionDaoCsv(String fileName, String LanguageTag) {
         this.fileName = fileName;
+        this.LanguageTag = LanguageTag;
+        this.localedFileName = getLocaledFileName();
+    }
+
+    private String getLocaledFileName() {
+        String result;
+        if (this.LanguageTag.isEmpty() || this.LanguageTag.equals("en")) {
+            result = this.fileName;
+        } else {
+            result = this.fileName.substring(0, this.fileName.length() - 4)
+                    + "_" + this.LanguageTag
+                    + this.fileName.substring(this.fileName.length() - 4);
+        }
+        return result;
     }
 
     @Override
@@ -32,10 +47,10 @@ public class QuestionDaoCsv implements QuestionDao {
 
         List<Question> questions = new ArrayList<>();
 
-        try (InputStream inputStream = getClass().getResourceAsStream(this.fileName)) {
+        try (InputStream inputStream = getClass().getResourceAsStream(this.localedFileName)) {
 
             if (inputStream == null) {
-                throw new QuestionSourceException("File not found: " + this.fileName);
+                throw new QuestionSourceException("File not found: " + this.localedFileName);
             }
 
             try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream))) {

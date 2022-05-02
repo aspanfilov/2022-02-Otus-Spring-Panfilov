@@ -6,7 +6,9 @@ public interface IOService {
 
     void outputString(String s);
 
-    void outputStringLocaled(String s, @Nullable Object[] args);
+    void outputLocaledString(String s);
+
+    void outputLocaledStringWithArgs(String s, Object[] args);
 
     int readInt();
 

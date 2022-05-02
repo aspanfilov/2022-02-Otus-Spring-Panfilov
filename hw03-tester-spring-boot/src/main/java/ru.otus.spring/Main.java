@@ -3,8 +3,9 @@ package ru.otus.spring;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.MessageSource;
-import ru.otus.spring.service.IOServiceStreams;
-import ru.otus.spring.service.MessageSourceServiceImpl;
+import ru.otus.spring.service.*;
+
+import java.util.Locale;
 
 @SpringBootApplication
 public class Main {
@@ -12,30 +13,29 @@ public class Main {
 
         var context = SpringApplication.run(Main.class, args);
 
-        var msg = context.getBean(MessageSource.class);
-
-        var lmsg = context.getBean(MessageSourceServiceImpl.class);
-
+//        var msg = context.getBean(MessageSource.class);
+//        System.out.println(msg);
 //        System.out.println(msg.getMessage(
 //                "strings.EnterName",
 //                null,
 //                Locale.forLanguageTag("ru-RU")
 //        ));
-
-        System.out.println(msg);
-        System.out.println(lmsg);
-
-        var io = context.getBean(IOServiceStreams.class);
-        System.out.println(io.getInput());
-        System.out.println(io.getOutput());
-        System.out.println(io.getMessageSourceService());
-
+//
+//        var msgService = context.getBean(MessageSourceService.class);
+////        var msgService = new MessageSourceServiceImpl(msg, "ru-RU");
+//        System.out.println(msgService);
+//        System.out.println(msgService.getMessage(
+//                "strings.EnterName",
+//                null
+//        ));
+//
+//        System.out.println();
+//        var io = context.getBean(IOService.class);
 //        io.outputStringLocaled("strings.EnterName", null);
 
 
-
-//        var testProcessor = context.getBean(TestProcessor.class);
-//        testProcessor.start();
+        var testProcessor = context.getBean(TestProcessor.class);
+        testProcessor.start();
 
     }
 }

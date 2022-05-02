@@ -1,8 +1,8 @@
 package ru.otus.spring.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResult;
 import ru.otus.spring.domain.User;
@@ -12,12 +12,14 @@ import ru.otus.spring.domain.User;
 @ConstructorBinding
 public class TestResultServiceImpl implements TestResultService{
 
+    @Autowired
+    private final MessageSourceService messageSourceService;
     private final int passingPercentage;
 
-    private static final String PASSED = "PASSED";
-    private static final String MISSED = "MISSED";
-
-    public TestResultServiceImpl(int passingPercentage) {
+    public TestResultServiceImpl(
+            MessageSourceService messageSourceService,
+            int passingPercentage) {
+        this.messageSourceService = messageSourceService;
         this.passingPercentage = passingPercentage;
     }
 
@@ -33,19 +35,21 @@ public class TestResultServiceImpl implements TestResultService{
     public String getPassingMessage(TestResult testResult) {
         int percent = testResult.getNumberOfCorrectAnswers() * 100 / testResult.getNumberOfQuestions();
         if (percent >= this.passingPercentage) {
-            return PASSED;
+            return messageSourceService.getMessage("result.passed", null);
         } else {
-            return MISSED;
+            return messageSourceService.getMessage("result.missed", null);
         }
     }
 
     @Override
     public String getResultMessage(TestResult testResult, User user) {
-        String msg = user.getName()
-                + ", you have answered " + testResult.getNumberOfCorrectAnswers()
-                + " out of " + testResult.getNumberOfQuestions()
-                + " questions \n"
-                + getPassingMessage(testResult);
+        String msg = this.messageSourceService.getMessage(
+                "result.message",
+                new String[] {
+                        user.getName(),
+                        Integer.valueOf(testResult.getNumberOfCorrectAnswers()).toString(),
+                        Integer.valueOf(testResult.getNumberOfQuestions()).toString()})
+                + "\n" + getPassingMessage(testResult);
         return msg;
     }
 

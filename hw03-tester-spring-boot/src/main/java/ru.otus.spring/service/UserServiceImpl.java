@@ -15,12 +15,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getUser() {
 
-//        this.ioService.outputString("Enter name: ");
-        this.ioService.outputString("Enter name: ");
+        this.ioService.outputLocaledString("user.enterName");
 
         User user = new User(this.ioService.readString());
 
-        this.ioService.outputString(String.format("Hello, %s", user.getName()));
+        this.ioService.outputLocaledStringWithArgs(
+                "user.hello",
+                new String[] {user.getName()});
 
         return user;
     }
