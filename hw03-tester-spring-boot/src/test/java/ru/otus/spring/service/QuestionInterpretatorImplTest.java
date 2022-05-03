@@ -1,4 +1,4 @@
-package spring.service;
+package ru.otus.spring.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

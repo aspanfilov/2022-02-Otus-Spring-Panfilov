@@ -13,27 +13,6 @@ public class Main {
 
         var context = SpringApplication.run(Main.class, args);
 
-//        var msg = context.getBean(MessageSource.class);
-//        System.out.println(msg);
-//        System.out.println(msg.getMessage(
-//                "strings.EnterName",
-//                null,
-//                Locale.forLanguageTag("ru-RU")
-//        ));
-//
-//        var msgService = context.getBean(MessageSourceService.class);
-////        var msgService = new MessageSourceServiceImpl(msg, "ru-RU");
-//        System.out.println(msgService);
-//        System.out.println(msgService.getMessage(
-//                "strings.EnterName",
-//                null
-//        ));
-//
-//        System.out.println();
-//        var io = context.getBean(IOService.class);
-//        io.outputStringLocaled("strings.EnterName", null);
-
-
         var testProcessor = context.getBean(TestProcessor.class);
         testProcessor.start();
 
