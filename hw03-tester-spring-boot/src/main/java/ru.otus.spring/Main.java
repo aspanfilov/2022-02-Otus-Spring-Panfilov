@@ -13,8 +13,18 @@ public class Main {
 
         var context = SpringApplication.run(Main.class, args);
 
-        var testProcessor = context.getBean(TestProcessor.class);
-        testProcessor.start();
+//        var ioservice = context.getBean(IOServiceStreams.class);
+        var msgSource = context.getBean(MessageSource.class);
+        System.out.println("msgSource = " + msgSource);
+
+        var msgSourceService = context.getBean(MessageSourceService.class);
+        System.out.println("msgSourceService = " + msgSourceService);
+        System.out.println("msgSourceService.messageSource = " + msgSourceService.getMessageSource());
+
+
+
+//        var testProcessor = context.getBean(TestProcessor.class);
+//        testProcessor.start();
 
     }
 }

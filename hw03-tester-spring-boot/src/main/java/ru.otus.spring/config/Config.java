@@ -1,14 +1,14 @@
 package ru.otus.spring.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.MessageSourceResourceBundle;
 import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.dao.QuestionDaoCsv;
 import ru.otus.spring.service.*;
 
+//@ConfigurationProperties(prefix = "localization")
 @Configuration
 @EnableConfigurationProperties({
         QuestionDaoCsv.class,
@@ -20,7 +20,7 @@ public class Config {
 
     private TestResultService testResultService;
 
-    private MessageSourceService messageSourceService;
+    public MessageSourceService messageSourceService;
 
     @Bean
     IOService ioService() {

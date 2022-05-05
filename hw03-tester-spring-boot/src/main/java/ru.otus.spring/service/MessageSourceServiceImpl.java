@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.context.MessageSource;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Service;
 
 import java.util.Locale;
 
@@ -12,16 +13,19 @@ import java.util.Locale;
 @ConstructorBinding
 public class MessageSourceServiceImpl implements MessageSourceService{
 
-    @Autowired
     private final MessageSource messageSource;
+
+    public MessageSource getMessageSource() {
+        return this.messageSource;
+    }
 
     private final String LanguageTag;
 
     private Locale locale;
 
-    public MessageSourceServiceImpl(MessageSource messageSource, String languageTag) {
+    public MessageSourceServiceImpl(MessageSource messageSource, String LanguageTag) {
         this.messageSource = messageSource;
-        this.LanguageTag = languageTag;
+        this.LanguageTag = LanguageTag;
         this.locale = Locale.forLanguageTag(LanguageTag);
     }
 
