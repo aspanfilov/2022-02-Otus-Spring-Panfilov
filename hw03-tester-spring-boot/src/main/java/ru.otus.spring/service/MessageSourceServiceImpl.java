@@ -5,12 +5,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.context.MessageSource;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
 
 @ConfigurationProperties(prefix = "localization")
-@ConstructorBinding
+//@ConstructorBinding
+@Component
 public class MessageSourceServiceImpl implements MessageSourceService{
 
     private final MessageSource messageSource;

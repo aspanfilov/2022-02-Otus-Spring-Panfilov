@@ -10,7 +10,7 @@ public class IOServiceStreams implements IOService {
 
     private final Scanner input;
     private final PrintStream output;
-    @Autowired
+//    @Autowired
     private final MessageSourceService messageSourceService;
 
     public IOServiceStreams(
