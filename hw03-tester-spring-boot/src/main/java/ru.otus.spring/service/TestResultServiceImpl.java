@@ -1,26 +1,22 @@
 package ru.otus.spring.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.stereotype.Service;
+import ru.otus.spring.config.TestResultConfig;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResult;
 import ru.otus.spring.domain.User;
 
+@Service
+public class TestResultServiceImpl implements TestResultService {
 
-@ConfigurationProperties(prefix = "test-result")
-@ConstructorBinding
-public class TestResultServiceImpl implements TestResultService{
-
-    @Autowired
     private final MessageSourceService messageSourceService;
     private final int passingPercentage;
 
     public TestResultServiceImpl(
             MessageSourceService messageSourceService,
-            int passingPercentage) {
+            TestResultConfig testResultConfig) {
         this.messageSourceService = messageSourceService;
-        this.passingPercentage = passingPercentage;
+        this.passingPercentage = testResultConfig.getPassingPercentage();
     }
 
     @Override
@@ -35,9 +31,9 @@ public class TestResultServiceImpl implements TestResultService{
     public String getPassingMessage(TestResult testResult) {
         int percent = testResult.getNumberOfCorrectAnswers() * 100 / testResult.getNumberOfQuestions();
         if (percent >= this.passingPercentage) {
-            return messageSourceService.getMessage("result.passed", null);
+            return messageSourceService.getMessage("result.passed");
         } else {
-            return messageSourceService.getMessage("result.missed", null);
+            return messageSourceService.getMessage("result.missed");
         }
     }
 
@@ -45,10 +41,9 @@ public class TestResultServiceImpl implements TestResultService{
     public String getResultMessage(TestResult testResult, User user) {
         String msg = this.messageSourceService.getMessage(
                 "result.message",
-                new String[] {
-                        user.getName(),
-                        Integer.valueOf(testResult.getNumberOfCorrectAnswers()).toString(),
-                        Integer.valueOf(testResult.getNumberOfQuestions()).toString()})
+                user.getName(),
+                Integer.valueOf(testResult.getNumberOfCorrectAnswers()).toString(),
+                Integer.valueOf(testResult.getNumberOfQuestions()).toString())
                 + "\n" + getPassingMessage(testResult);
         return msg;
     }

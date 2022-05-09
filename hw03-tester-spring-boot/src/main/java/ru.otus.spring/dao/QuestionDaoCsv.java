@@ -2,8 +2,9 @@ package ru.otus.spring.dao;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.stereotype.Repository;
+import ru.otus.spring.config.LocalizatioinConfig;
+import ru.otus.spring.config.QuestionSourceConfig;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.exception.QuestionCreationException;
@@ -16,30 +17,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-@ConfigurationProperties(prefix = "question-source")
-@ConstructorBinding
+@Repository
 public class QuestionDaoCsv implements QuestionDao {
 
     private final String fileName;
-    private final String LanguageTag;
-    private String localedFileName;
 
-    public QuestionDaoCsv(String fileName, String LanguageTag) {
-        this.fileName = fileName;
-        this.LanguageTag = LanguageTag;
-        this.localedFileName = getLocaledFileName();
+    public QuestionDaoCsv(
+            QuestionSourceConfig questionSourceConfig,
+            LocalizatioinConfig localizatioinConfig) {
+        this.fileName = getLocalizedFileName(
+                questionSourceConfig.getFileName(),
+                localizatioinConfig.getLanguageTag());
     }
 
-    private String getLocaledFileName() {
-        String result;
-        if (this.LanguageTag.isEmpty() || this.LanguageTag.equals("en")) {
-            result = this.fileName;
+    //todo формирование локализованного файла вытащить за рамки ДАО (есть в лекции)
+    //  в дао приходит уже готовое имя файла
+
+    private String getLocalizedFileName(String fileName, String languageTag) {
+        String localizedFileName;
+        if (languageTag.isEmpty() || languageTag.equals("en-EN")) {
+            localizedFileName = fileName;
         } else {
-            result = this.fileName.substring(0, this.fileName.length() - 4)
-                    + "_" + this.LanguageTag
-                    + this.fileName.substring(this.fileName.length() - 4);
+            localizedFileName = fileName.substring(0, fileName.length() - 4)
+                    + "_" + languageTag.substring(languageTag.length()-2)
+                    + fileName.substring(fileName.length() - 4);
         }
-        return result;
+        return localizedFileName;
     }
 
     @Override
@@ -47,10 +50,10 @@ public class QuestionDaoCsv implements QuestionDao {
 
         List<Question> questions = new ArrayList<>();
 
-        try (InputStream inputStream = getClass().getResourceAsStream(this.localedFileName)) {
+        try (InputStream inputStream = getClass().getResourceAsStream(this.fileName)) {
 
             if (inputStream == null) {
-                throw new QuestionSourceException("File not found: " + this.localedFileName);
+                throw new QuestionSourceException("File not found: " + this.fileName);
             }
 
             try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream))) {

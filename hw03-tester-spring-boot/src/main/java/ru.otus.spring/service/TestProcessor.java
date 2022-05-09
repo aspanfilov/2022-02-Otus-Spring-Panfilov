@@ -17,6 +17,7 @@ public class TestProcessor {
     private final TestResultService testResultService;
     private final HelpProvider helpProvider;
     private final IOService ioService;
+    private final LocalizedOutputService localizedOutputService;
 
     private static final String EXIT_COMMAND = "q";
     private static final String HELP_COMMAND = "h";
@@ -26,13 +27,15 @@ public class TestProcessor {
                          UserService userService,
                          TestResultService testResultService,
                          HelpProvider helpProvider,
-                         IOService ioService) {
+                         IOService ioService,
+                         LocalizedOutputService localizedOutputService) {
         this.questionService = questionService;
         this.questionInterpretator = questionInterpretator;
         this.userService = userService;
         this.testResultService = testResultService;
         this.helpProvider = helpProvider;
         this.ioService = ioService;
+        this.localizedOutputService = localizedOutputService;
     }
 
 
@@ -45,11 +48,11 @@ public class TestProcessor {
             printResult(testResult, user);
 
         } catch (QuestionSourceException  e) {
-            this.ioService.outputLocaledString("errors.fileReadingError");
+            this.localizedOutputService.outputMessage("errors.fileReadingError");
         } catch (NumberFormatException | QuestionCreationException e) {
-            this.ioService.outputLocaledString("errors.questionReadingError");
+            this.localizedOutputService.outputMessage("errors.questionReadingError");
         } catch (ArithmeticException e) {
-            this.ioService.outputLocaledString("errors.testResultCalculatingError");
+            this.localizedOutputService.outputMessage("errors.testResultCalculatingError");
         }
     }
 
@@ -57,7 +60,7 @@ public class TestProcessor {
         TestResult testResult = new TestResult(questions);
 
         this.ioService.outputString(helpProvider.getInstruction());
-        this.ioService.outputLocaledString("test.start");
+        this.localizedOutputService.outputMessage("test.start");
 
         for (Question question : questions) {
             String userAnswer = askQuestionAndReturnAnswer(question);
@@ -90,7 +93,7 @@ public class TestProcessor {
             } else if (inputAnswer.equalsIgnoreCase(HELP_COMMAND)) {
                 this.ioService.outputString(helpProvider.getInstruction());
             } else {
-                this.ioService.outputLocaledString("errors.unreadableAnswer");
+                this.localizedOutputService.outputMessage("errors.unreadableAnswer");
             }
         }
 

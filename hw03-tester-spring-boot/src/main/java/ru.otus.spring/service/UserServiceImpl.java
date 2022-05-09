@@ -7,21 +7,23 @@ import ru.otus.spring.domain.User;
 public class UserServiceImpl implements UserService{
 
     private final IOService ioService;
+    private final LocalizedOutputService localizedOutputService;
 
-    public UserServiceImpl(IOService ioService) {
+    public UserServiceImpl(IOService ioService, LocalizedOutputService localizedOutputService) {
         this.ioService = ioService;
+        this.localizedOutputService = localizedOutputService;
     }
 
     @Override
     public User getUser() {
 
-        this.ioService.outputLocaledString("user.enterName");
+        this.localizedOutputService.outputMessage("user.enterName");
 
         User user = new User(this.ioService.readString());
 
-        this.ioService.outputLocaledStringWithArgs(
+        this.localizedOutputService.outputMessageWithArgs(
                 "user.hello",
-                new String[] {user.getName()});
+                user.getName());
 
         return user;
     }

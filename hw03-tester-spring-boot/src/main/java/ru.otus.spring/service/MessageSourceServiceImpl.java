@@ -1,38 +1,23 @@
 package ru.otus.spring.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.context.MessageSource;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.config.LocalizatioinConfig;
 
 import java.util.Locale;
 
-@ConfigurationProperties(prefix = "localization")
-//@ConstructorBinding
-@Component
+@Service
 public class MessageSourceServiceImpl implements MessageSourceService{
 
     private final MessageSource messageSource;
+    private final Locale locale;
 
-    public MessageSource getMessageSource() {
-        return this.messageSource;
-    }
-
-    private final String LanguageTag;
-
-    private Locale locale;
-
-    public MessageSourceServiceImpl(MessageSource messageSource, String LanguageTag) {
+    public MessageSourceServiceImpl(MessageSource messageSource, LocalizatioinConfig localizatioinConfig) {
         this.messageSource = messageSource;
-        this.LanguageTag = LanguageTag;
-        this.locale = Locale.forLanguageTag(LanguageTag);
+        this.locale = Locale.forLanguageTag(localizatioinConfig.getLanguageTag());
     }
 
-    @Nullable
-    public String getMessage(String code, @Nullable Object[] args) {
+    public String getMessage(String code, Object... args) {
         return this.messageSource.getMessage(code, args, this.locale);
     }
 
