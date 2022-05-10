@@ -5,8 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
-import ru.otus.spring.service.QuestionInterpretator;
-import ru.otus.spring.service.QuestionInterpretatorImpl;
 
 import java.util.List;
 
@@ -15,12 +13,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @DisplayName("Класс QuestionProviderImpl")
-class QuestionInterpretatorImplTest {
+class QuestionInterpretaterImplTest {
 
     private Answer answerMock1;
     private Answer answerMock2;
     private Question questionMock;
-    private QuestionInterpretator questionProvider;
+    private QuestionInterpretater questionProvider;
 
 
     @BeforeEach
@@ -34,7 +32,7 @@ class QuestionInterpretatorImplTest {
         this.questionMock = mock(Question.class);
         when(questionMock.getAnswers()).thenReturn(answers);
 
-        this.questionProvider = new QuestionInterpretatorImpl();
+        this.questionProvider = new QuestionInterpretaterImpl();
     }
 
     @DisplayName("Метод getQuestionPhrase возвращает вопрос")

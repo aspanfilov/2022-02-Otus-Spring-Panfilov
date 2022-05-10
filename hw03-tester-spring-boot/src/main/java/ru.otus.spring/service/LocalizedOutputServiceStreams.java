@@ -3,7 +3,7 @@ package ru.otus.spring.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LocalizedOutputServiceStreams implements LocalizedOutputService{
+public class LocalizedOutputServiceStreams implements LocalizedOutputService {
 
     private final IOService ioService;
     private final MessageSourceService messageSourceService;

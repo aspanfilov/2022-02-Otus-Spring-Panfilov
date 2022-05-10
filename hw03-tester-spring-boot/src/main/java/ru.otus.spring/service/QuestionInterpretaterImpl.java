@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @Service
-public class QuestionInterpretatorImpl implements QuestionInterpretator {
+public class QuestionInterpretaterImpl implements QuestionInterpretater {
 
     private final List<String> availableInputAnswers = new ArrayList<>();
 
@@ -39,7 +39,7 @@ public class QuestionInterpretatorImpl implements QuestionInterpretator {
 
     private void updateAvailableInputAnswers(Question question) {
         this.availableInputAnswers.clear();
-        IntStream.range(1, question.getAnswers().size()+1)
+        IntStream.range(1, question.getAnswers().size() + 1)
                 .mapToObj(Integer::toString)
                 .forEach(this.availableInputAnswers::add);
     }

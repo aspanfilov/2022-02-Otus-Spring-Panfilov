@@ -6,10 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import ru.otus.spring.service.*;
 
 @Configuration
-@EnableConfigurationProperties({
-        LocalizatioinConfig.class,
-        QuestionSourceConfig.class,
-        TestResultConfig.class})
+@EnableConfigurationProperties(AppSettings.class)
 public class Config {
 
     @Bean

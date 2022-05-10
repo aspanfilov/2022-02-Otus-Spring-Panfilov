@@ -1,7 +1,7 @@
 package ru.otus.spring.service;
 
 import org.springframework.stereotype.Service;
-import ru.otus.spring.config.TestResultConfig;
+import ru.otus.spring.config.TestResultSettingsProvider;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResult;
 import ru.otus.spring.domain.User;
@@ -14,9 +14,9 @@ public class TestResultServiceImpl implements TestResultService {
 
     public TestResultServiceImpl(
             MessageSourceService messageSourceService,
-            TestResultConfig testResultConfig) {
+            TestResultSettingsProvider testResultSettingsProvider) {
         this.messageSourceService = messageSourceService;
-        this.passingPercentage = testResultConfig.getPassingPercentage();
+        this.passingPercentage = testResultSettingsProvider.getPassingPercentage();
     }
 
     @Override

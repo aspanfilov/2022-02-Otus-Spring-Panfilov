@@ -2,11 +2,7 @@ spring:
   messages:
     basename: i18n/messages
 
-localization:
-  language-tag: en-EN
-
-question-source:
-  file-name: /questions.csv
-
-test-result:
-  passing-percentage: 70
+settings:
+    language-tag: en-EN
+    question-file-name: /questions.csv
+    test-passing-percentage: 70

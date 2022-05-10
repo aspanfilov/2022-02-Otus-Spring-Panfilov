@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class TestProcessor {
     private final QuestionService questionService;
-    private final QuestionInterpretator questionInterpretator;
+    private final QuestionInterpretater questionInterpretater;
     private final UserService userService;
     private final TestResultService testResultService;
     private final HelpProvider helpProvider;
@@ -23,14 +23,14 @@ public class TestProcessor {
     private static final String HELP_COMMAND = "h";
 
     public TestProcessor(QuestionService questionService,
-                         QuestionInterpretator questionInterpretator,
+                         QuestionInterpretater questionInterpretater,
                          UserService userService,
                          TestResultService testResultService,
                          HelpProvider helpProvider,
                          IOService ioService,
                          LocalizedOutputService localizedOutputService) {
         this.questionService = questionService;
-        this.questionInterpretator = questionInterpretator;
+        this.questionInterpretater = questionInterpretater;
         this.userService = userService;
         this.testResultService = testResultService;
         this.helpProvider = helpProvider;
@@ -76,13 +76,13 @@ public class TestProcessor {
 
     private String askQuestionAndReturnAnswer(Question question) {
 
-        List<String> availableInputAnswers = this.questionInterpretator.getAvailableInputAnswers(question);
+        List<String> availableInputAnswers = this.questionInterpretater.getAvailableInputAnswers(question);
         String inputAnswer = "";
 
         boolean isAnswerAdopted = false;
         while (!isAnswerAdopted) {
-            this.ioService.outputString(questionInterpretator.getQuestionPhrase(question));
-            this.ioService.outputString(questionInterpretator.getAnswerVariants(question));
+            this.ioService.outputString(questionInterpretater.getQuestionPhrase(question));
+            this.ioService.outputString(questionInterpretater.getAnswerVariants(question));
 
             inputAnswer = this.ioService.readString();
 

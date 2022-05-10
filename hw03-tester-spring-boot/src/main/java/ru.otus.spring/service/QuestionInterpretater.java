@@ -4,7 +4,7 @@ import ru.otus.spring.domain.Question;
 
 import java.util.List;
 
-public interface QuestionInterpretator {
+public interface QuestionInterpretater {
 
     String getQuestionPhrase(Question question);
 
