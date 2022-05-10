@@ -4,14 +4,11 @@ import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
 @Service
 public class QuestionInterpretaterImpl implements QuestionInterpretater {
-
-    private final List<String> availableInputAnswers = new ArrayList<>();
 
     @Override
     public String getQuestionPhrase(Question question) {
@@ -31,17 +28,13 @@ public class QuestionInterpretaterImpl implements QuestionInterpretater {
 
     @Override
     public List<String> getAvailableInputAnswers(Question question) {
-        if (this.availableInputAnswers.size() != (question.getAnswers().size())) {
-            updateAvailableInputAnswers(question);
-        }
-        return this.availableInputAnswers;
+
+        List<String> availableInputAnswers =
+                IntStream.range(1, question.getAnswers().size() + 1)
+                .mapToObj(Integer::toString).toList();
+
+        return availableInputAnswers;
     }
 
-    private void updateAvailableInputAnswers(Question question) {
-        this.availableInputAnswers.clear();
-        IntStream.range(1, question.getAnswers().size() + 1)
-                .mapToObj(Integer::toString)
-                .forEach(this.availableInputAnswers::add);
-    }
 
 }
