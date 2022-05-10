@@ -1,8 +1,9 @@
-package ru.otus.spring.service;
+package ru.otus.spring.service.io;
 
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.config.LocalizationProvider;
+import ru.otus.spring.service.io.MessageSourceService;
 
 import java.util.Locale;
 

@@ -2,6 +2,8 @@ package ru.otus.spring.service;
 
 import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.User;
+import ru.otus.spring.service.io.IOService;
+import ru.otus.spring.service.io.LocalizedOutputService;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -15,15 +17,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUser() {
+    public User introduceAndReturnUser() {
 
         this.localizedOutputService.outputMessage("user.enterName");
 
         User user = new User(this.ioService.readString());
-
-        this.localizedOutputService.outputMessageWithArgs(
-                "user.hello",
-                user.getName());
 
         return user;
     }

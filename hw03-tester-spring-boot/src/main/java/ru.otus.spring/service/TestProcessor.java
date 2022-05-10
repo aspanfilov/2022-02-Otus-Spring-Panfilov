@@ -6,6 +6,8 @@ import ru.otus.spring.domain.TestResult;
 import ru.otus.spring.domain.User;
 import ru.otus.spring.exception.QuestionCreationException;
 import ru.otus.spring.exception.QuestionSourceException;
+import ru.otus.spring.service.io.IOService;
+import ru.otus.spring.service.io.LocalizedOutputService;
 
 import java.util.List;
 
@@ -43,7 +45,7 @@ public class TestProcessor {
         try {
 
             var questions = this.questionService.getAll();
-            var user = userService.getUser();
+            var user = this.userService.introduceAndReturnUser();
             var testResult = askQuestions(questions);
             printResult(testResult, user);
 
@@ -91,7 +93,7 @@ public class TestProcessor {
             } else if (inputAnswer.equalsIgnoreCase(EXIT_COMMAND)) {
                 isAnswerAdopted = true;
             } else if (inputAnswer.equalsIgnoreCase(HELP_COMMAND)) {
-                this.ioService.outputString(helpProvider.getInstruction());
+                this.ioService.outputString(this.helpProvider.getInstruction());
             } else {
                 this.localizedOutputService.outputMessage("errors.unreadableAnswer");
             }

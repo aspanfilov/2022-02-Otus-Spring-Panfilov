@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@DisplayName("Класс QuestionProviderImpl")
+@DisplayName("Класс QuestionInterpretaterImpl")
 class QuestionInterpretaterImplTest {
 
     private Answer answerMock1;
@@ -20,19 +20,18 @@ class QuestionInterpretaterImplTest {
     private Question questionMock;
     private QuestionInterpretater questionProvider;
 
-
     @BeforeEach
     void setUp() {
-        this.answerMock1 = mock(Answer.class);
-        when(this.answerMock1.getAnswerPhrase()).thenReturn("answer1");
-        this.answerMock2 = mock(Answer.class);
-        when(this.answerMock2.getAnswerPhrase()).thenReturn("answer2");
+        answerMock1 = mock(Answer.class);
+        when(answerMock1.getAnswerPhrase()).thenReturn("answer1");
+        answerMock2 = mock(Answer.class);
+        when(answerMock2.getAnswerPhrase()).thenReturn("answer2");
         List<Answer> answers = List.of(answerMock1, answerMock2);
 
-        this.questionMock = mock(Question.class);
+        questionMock = mock(Question.class);
         when(questionMock.getAnswers()).thenReturn(answers);
 
-        this.questionProvider = new QuestionInterpretaterImpl();
+        questionProvider = new QuestionInterpretaterImpl();
     }
 
     @DisplayName("Метод getQuestionPhrase возвращает вопрос")
@@ -40,9 +39,9 @@ class QuestionInterpretaterImplTest {
     void getQuestionPhrase_shouldReturnQuestionPhrase() {
 
         String questionPhase = "question";
-        when(this.questionMock.getQuestionPhrase()).thenReturn(questionPhase);
+        when(questionMock.getQuestionPhrase()).thenReturn(questionPhase);
 
-        assertThat(this.questionProvider.getQuestionPhrase(this.questionMock))
+        assertThat(questionProvider.getQuestionPhrase(questionMock))
                 .isEqualTo(questionPhase);
     }
 
@@ -50,7 +49,7 @@ class QuestionInterpretaterImplTest {
     @Test
     void getAnswerVariants_shouldReturnAnswerVariants() {
 
-        assertThat(this.questionProvider.getAnswerVariants(this.questionMock))
+        assertThat(questionProvider.getAnswerVariants(questionMock))
                 .isEqualTo("1.answer1 2.answer2 ");
     }
 
@@ -60,7 +59,7 @@ class QuestionInterpretaterImplTest {
 
         List<String> availableInputAnswers = List.of("1","2");
 
-        assertThat(this.questionProvider.getAvailableInputAnswers(this.questionMock))
+        assertThat(questionProvider.getAvailableInputAnswers(questionMock))
                 .containsExactlyElementsOf(availableInputAnswers);
 
     }

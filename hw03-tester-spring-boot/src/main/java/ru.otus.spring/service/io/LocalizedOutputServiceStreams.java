@@ -1,6 +1,9 @@
-package ru.otus.spring.service;
+package ru.otus.spring.service.io;
 
 import org.springframework.stereotype.Service;
+import ru.otus.spring.service.io.IOService;
+import ru.otus.spring.service.io.LocalizedOutputService;
+import ru.otus.spring.service.io.MessageSourceService;
 
 @Service
 public class LocalizedOutputServiceStreams implements LocalizedOutputService {

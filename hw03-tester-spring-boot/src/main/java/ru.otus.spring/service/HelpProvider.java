@@ -1,6 +1,7 @@
 package ru.otus.spring.service;
 
 import org.springframework.stereotype.Service;
+import ru.otus.spring.service.io.MessageSourceService;
 
 @Service
 public class HelpProvider {
