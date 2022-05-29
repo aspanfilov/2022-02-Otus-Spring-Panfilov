@@ -3,6 +3,6 @@ spring:
     basename: i18n/messages
 
 settings:
-    language-tag: ru-RU
+    language-tag: en-EN
     question-file-name: /questions.csv
     test-passing-percentage: 70

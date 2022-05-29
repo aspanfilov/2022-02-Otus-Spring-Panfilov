@@ -16,16 +16,15 @@ public class HelpProvider {
 
     public String getInstruction() {
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(messageSourceService.getMessage("instruction.title"));
-        sb.append("\n").append(INDENT);
-        sb.append(messageSourceService.getMessage("instruction.escape"));
-        sb.append("\n").append(INDENT);
-        sb.append(messageSourceService.getMessage("instruction.instruction"));
-        sb.append("\n").append(INDENT);
-        sb.append(messageSourceService.getMessage("instruction.answer"));
+        String sb = messageSourceService.getMessage("instruction.title") +
+                "\n" + INDENT +
+                messageSourceService.getMessage("instruction.escape") +
+                "\n" + INDENT +
+                messageSourceService.getMessage("instruction.instruction") +
+                "\n" + INDENT +
+                messageSourceService.getMessage("instruction.answer");
 
-        return sb.toString();
+        return sb;
     }
 
 }
