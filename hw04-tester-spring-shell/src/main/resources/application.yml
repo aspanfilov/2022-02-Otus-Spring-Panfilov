@@ -1,0 +1,13 @@
+spring:
+  messages:
+    basename: i18n/messages
+
+settings:
+    language-tag: ru-RU
+    question-file-name: /questions.csv
+    test-passing-percentage: 70
+
+logging:
+  level:
+    org:
+      springframework: INFO
